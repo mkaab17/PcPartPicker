@@ -1,6 +1,6 @@
 // --- CONFIGURATION ---
 // Replace with your actual Gemini API Key
-const API_KEY = 'AIzaSyCqT2BU7yv8CNoyIYsW_fZIPTvMsZ-d_r8';
+const API_KEY = '';
 
 // --- STATE ---
 let isFullBuild = true;
@@ -223,6 +223,7 @@ window.addEventListener('load', () => {
         }
     }
 });
+
 
 
 
