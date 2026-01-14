@@ -1,0 +1,292 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
+
+:root {
+    --tech-gold: #ffb703;
+    /* Youtube Pacman color essentially */
+    --tech-gold-dim: #996e00;
+    --glass-bg: rgba(0, 0, 0, 0.85);
+    /* Darker for arcade feel */
+    --glass-border: var(--tech-gold);
+    --neon-glow: 0 0 10px var(--tech-gold);
+    --crt-scanline: rgba(18, 16, 16, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: 'VT323', monospace;
+    font-size: 1.2rem;
+    background: url('https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=2670&auto=format&fit=crop') no-repeat center center fixed;
+    background-size: cover;
+    color: var(--tech-gold);
+    overflow-x: hidden;
+    min-height: 100vh;
+    image-rendering: pixelated;
+}
+
+/* CRT Overlay - adjusted z-index and fixed position to prevent overlaying on top of UI elements if needed */
+body::before {
+    content: " ";
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    z-index: 1;
+    /* Lowered so it stays behind the text/buttons to avoid "black lines" */
+    background-size: 100% 2px, 3px 100%;
+    pointer-events: none;
+}
+
+.app-container {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.glass-panel {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 2rem;
+}
+
+h1,
+h2,
+h3 {
+    font-family: 'Press Start 2P', cursive;
+    text-transform: uppercase;
+    line-height: 1.4;
+    text-shadow: 4px 4px 0px #000;
+}
+
+input[type="text"] {
+    background: rgba(0, 0, 0, 0.6);
+    border: 1px solid var(--tech-gold-dim);
+    color: var(--tech-gold);
+    padding: 0.8rem;
+    font-family: inherit;
+    font-size: 1.1rem;
+    width: 100%;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+    border-color: var(--tech-gold);
+    box-shadow: var(--neon-glow);
+}
+
+button {
+    background: transparent;
+    border: 1px solid var(--tech-gold);
+    color: var(--tech-gold);
+    padding: 0.8rem 1.5rem;
+    font-family: inherit;
+    font-size: 1rem;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover:not(:disabled) {
+    background: var(--tech-gold);
+    color: #000;
+    box-shadow: var(--neon-glow);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Animations */
+@keyframes blink {
+    0% {
+        opacity: 0.2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0.2;
+    }
+}
+
+.loading-text {
+    font-size: 1.5rem;
+    animation: blink 1s infinite;
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin-top: 4rem;
+}
+
+.error-panel {
+    color: #ff4444;
+    text-align: center;
+    max-width: 600px;
+    margin: 2rem auto;
+    border-color: #ff4444;
+}
+
+/* Form Styles */
+.form-container {
+    max-width: 100%;
+    margin: 0 auto 2rem;
+}
+
+.toggle-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.toggle-btn {
+    border: 4px solid var(--tech-gold) !important;
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 0.8rem !important;
+}
+
+.toggle-btn.active {
+    background: var(--tech-gold);
+    color: black;
+    box-shadow: 4px 4px 0px #000;
+}
+
+.input-row {
+    display: flex;
+    gap: 1rem;
+}
+
+.execute-btn {
+    border: 4px solid var(--tech-gold) !important;
+    font-family: 'Press Start 2P', cursive !important;
+    font-size: 0.8rem !important;
+    white-space: nowrap;
+}
+
+/* Result Styles */
+.results-container {
+    max-width: 64rem;
+    margin: 0 auto;
+}
+
+.summary-panel {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+}
+
+.parts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.part-card {
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.part-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0 20px var(--tech-gold);
+}
+
+.part-image-container {
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.part-image-overlay-1 {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 60%, rgba(0, 0, 0, 0.8));
+    z-index: 1;
+}
+
+.part-image-overlay-2 {
+    position: absolute;
+    inset: 0;
+    background: var(--tech-gold);
+    mix-blend-mode: overlay;
+    opacity: 0.1;
+    z-index: 2;
+}
+
+.part-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(30%) contrast(120%);
+}
+
+.part-details {
+    padding: 1.5rem;
+}
+
+.part-type {
+    font-size: 0.8rem;
+    opacity: 0.7;
+    margin-bottom: 0.2rem;
+}
+
+.part-name {
+    font-size: 1rem !important;
+    margin: 0 0 0.5rem 0 !important;
+    text-shadow: none !important;
+}
+
+.part-price {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+
+.part-reasoning {
+    font-size: 0.9rem;
+    border-top: 1px dashed var(--tech-gold-dim);
+    padding-top: 0.5rem;
+    line-height: 1.4;
+}
+
+.reasoning-label {
+    color: #fff;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--tech-gold-dim);
+}
+
+@media (max-width: 600px) {
+    .input-row {
+        flex-direction: column;
+    }
+}
