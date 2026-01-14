@@ -1,4 +1,4 @@
-# PartPickr Lab - Vanilla Version
+# PartPickr Lab
 
 This is a standalone version of the PartPickr Lab application built with plain HTML, CSS, and JavaScript. It does not require Node.js, React, or any build tools.
 
@@ -19,5 +19,4 @@ You can host this easily on:
 - **Netlify/Vercel**: Drag and drop the folder.
 - **Local Server**: Use VS Code Live Server or just open the file directly.
 
-## Note:
-Your API key is stored in your browser's `localStorage` for convenience. You can clear it by running `localStorage.clear()` in the browser console.
+
